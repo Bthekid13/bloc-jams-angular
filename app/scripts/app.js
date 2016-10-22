@@ -1,0 +1,1 @@
+anguar.module('blocJams', []);
