@@ -22,26 +22,26 @@ body.landing {
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.5rem;
-  text-shadow: 1px 1px 0px rgb(58,23,63);  
+  text-shadow: 1px 1px 0px rgb(58,23,63);
 }
 
 .selling-points {
   position: relative;
 
-  
+
 }
 .point {
   position: relative;
   padding: 2rem;
   text-align: center;
-  
+
  /*animation*/
-  opacity: 0;
+  opacity: 1;
   -webkit-transform: scaleX(0.9) translateY(3rem);
   -moz-transform: scaleX(0.9) translateY(3rem);
    transform: scaleX(0.9) translateY(3rem);
-  
-  -webkit-transition: all 0.25s ease-in-out;  
+
+  -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
    transition: all 0.25s ease-in-out;
 
@@ -54,7 +54,7 @@ body.landing {
   font-size: 1.25rem;
 }
 
-.ion-music-note, 
+.ion-music-note,
 .ion-radio-waves,
 .ion-iphone {
   color: rgb(233, 50, 117);
