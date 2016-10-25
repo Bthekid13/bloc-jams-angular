@@ -1,6 +1,7 @@
 (function() {
   function AlbumCtrl() {
-    this.albumdata = albumPicasso;
+    this.albumdata = angular.copy(albumPicasso);
+    this.songs = this.albumdata.songs;
   }
 
 
@@ -8,4 +9,4 @@
   .module('blocJams')
   .controller('AlbumCtrl', AlbumCtrl)
 
-}();
+})();
