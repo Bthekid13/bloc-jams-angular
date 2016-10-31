@@ -2,6 +2,11 @@
   function SongPlayer() {
     var SongPlayer = {};
 
+    /**
+    * @desc Buzz object audio file
+    * @type {Object}
+    */
+
     var currentSong = null;
 
     /**
@@ -16,7 +21,6 @@
     * @desc Stops currently playing song and lets new audio file as currentBuzzObject
     * @param {Object} song
     */
-
     var setSong = function(song) {
       if (currentBuzzObject) {
         currentBuzzObject.stop();
@@ -28,21 +32,41 @@
         reload: true
       });
       currentSong = song;
-    }
+    };
 
+    /**
+    * @function playSong
+    * @desc DRYs code that involves playing the currentBuzzObject
+    */
 
-    SongPlayer.play = function(song) {
-      if (currentSong !== song) {
-      setSong(song);
-
+    var playSong = function() {
       currentBuzzObject.play();
       song.playing = true;
-    } else if (currentSong === song) {
-      if (currentBuzzObject.isPaused()) {
-        currentBuzzObject.play();
+    };
+
+    /**
+    * @function SongPlayer.play
+    * @desc Plays the currentBuzzObject
+    * @param {Object} song
+    */
+    
+    SongPlayer.play = function(song) {
+      if (currentSong !== song) {
+        setSong(song);
+        playSong();
+      } else if (currentSong === song) {
+        if (currentBuzzObject.isPaused()) {
+          currentBuzzObject.play();
+        }
       }
-    }
-  };
+    };
+
+
+    /**
+    * @function SongPlayer.pause
+    * @desc pauses the currentBuzzObject
+    * @param {Object} song
+    */
 
     SongPlayer.pause = function(song) {
       currentBuzzObject.pause();
@@ -53,7 +77,7 @@
   }
 
   angular
-    .module('blocJams')
-    .factory('SongPlayer', SongPlayer);
+  .module('blocJams')
+  .factory('SongPlayer', SongPlayer);
 
 })();
