@@ -3,10 +3,9 @@
     var SongPlayer = {};
 
     /**
-    * @desc Buzz object audio file
+    * @desc Variable that represents the current song
     * @type {Object}
     */
-
     var currentSong = null;
 
     /**
@@ -22,6 +21,7 @@
     * @param {Object} song
     */
     var setSong = function(song) {
+
       if (currentBuzzObject) {
         currentBuzzObject.stop();
         currentSong.playing = null;
@@ -39,21 +39,23 @@
     * @desc DRYs code that involves playing the currentBuzzObject
     */
 
-    var playSong = function() {
+    var playSong = function(song) {
       currentBuzzObject.play();
       song.playing = true;
     };
 
     /**
     * @function SongPlayer.play
-    * @desc Plays the currentBuzzObject
+    * @desc Plays the currentBuzzs Object
     * @param {Object} song
     */
-    
+
     SongPlayer.play = function(song) {
       if (currentSong !== song) {
+
         setSong(song);
-        playSong();
+        playSong(song);
+
       } else if (currentSong === song) {
         if (currentBuzzObject.isPaused()) {
           currentBuzzObject.play();
@@ -71,7 +73,7 @@
     SongPlayer.pause = function(song) {
       currentBuzzObject.pause();
       song.playing = false;
-    }
+    };
 
     return SongPlayer;
   }
