@@ -6,7 +6,6 @@
     * @desc Buzz object audio file
     * @type {Object}
     */
-
     var currentSong = null;
 
     /**
@@ -39,17 +38,17 @@
     * @desc DRYs code that involves playing the currentBuzzObject
     */
 
-    var playSong = function() {
+    var playSong = function(song) {
       currentBuzzObject.play();
       song.playing = true;
     };
 
     /**
     * @function SongPlayer.play
-    * @desc Plays the currentBuzzObject
+    * @desc Plays the currentBuzzs Object
     * @param {Object} song
     */
-    
+
     SongPlayer.play = function(song) {
       if (currentSong !== song) {
         setSong(song);
