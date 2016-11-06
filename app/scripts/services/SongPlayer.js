@@ -1,19 +1,30 @@
 (function() {
-  function SongPlayer() {
+  function SongPlayer(Fixtures) {
     var SongPlayer = {};
 
-    /**
-    * @desc Buzz object audio file
-    * @type {Object}
-    */
-    var currentSong = null;
+// Private Functions
 
     /**
     * @desc Buzz object audio file
     * @type {Object}
     */
-
     var currentBuzzObject= null;
+
+    /**
+    * @desc holds the information for the Picasso Album
+    * @type {Object}
+    */
+    var currentAlbum = Fixtures.getAlbum();
+
+    /**
+    *@desc pulls the index of the songs given
+    *@type private function
+    */
+
+    var getSongIndex = function(song) {
+      return currentAlbum.songs.indexOf(song);
+    };
+
 
     /**
     * @function setSong
@@ -23,14 +34,16 @@
     var setSong = function(song) {
       if (currentBuzzObject) {
         currentBuzzObject.stop();
-        currentSong.playing = null;
+        if (SongPlayer.currentSong) {
+        SongPlayer.currentSong.playing = null;
+        }
       }
 
       currentBuzzObject = new buzz.sound(song.audioUrl, {
         formats: ['mp3'],
         reload: true
       });
-      currentSong = song;
+      SongPlayer.currentSong = song;
     };
 
     /**
@@ -49,16 +62,28 @@
     * @param {Object} song
     */
 
+
+// Public Functions
+
+  /**
+  * @desc Buzz object audio file
+  * @type {Object}
+  */
+    SongPlayer.currentSong = null;
+
+
     SongPlayer.play = function(song) {
-      if (currentSong !== song) {
+      song = song || SongPlayer.currentSong;
+      if (SongPlayer.currentSong !== song) {
         setSong(song);
-        playSong();
-      } else if (currentSong === song) {
+        playSong(song);
+      } else if (SongPlayer.currentSong === song) {
         if (currentBuzzObject.isPaused()) {
           currentBuzzObject.play();
         }
       }
     };
+
 
 
     /**
@@ -68,9 +93,29 @@
     */
 
     SongPlayer.pause = function(song) {
+      song = song || SongPlayer.currentSong;
       currentBuzzObject.pause();
       song.playing = false;
-    }
+    };
+
+    /**
+    * @desc cycles backward through the song index. Plays previous song.
+    * @type Public Function
+    */
+    SongPlayer.previous = function() {
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      currentSongIndex--;
+
+      if (currentSongIndex < 0) {
+        currentBuzzObject.stop();
+        SongPlayer.currentSong.playing = null;
+      } else {
+        var song = currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      }
+
+    };
 
     return SongPlayer;
   }
