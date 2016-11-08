@@ -10,11 +10,6 @@
     */
     var currentBuzzObject= null;
 
-    /**
-    * @desc holds the information for the Picasso Album
-    * @type {Object}
-    */
-    var currentAlbum = Fixtures.getAlbum();
 
     /**
     *@desc pulls the index of the songs given
@@ -75,6 +70,12 @@
     // Public Functions
 
     /**
+    * @desc holds the information for the Picasso Album
+    * @type {Object}
+    */
+    SongPlayer.currentAlbum = Fixtures.getAlbum();
+
+    /**
     * @desc Buzz object audio file
     * @type {Object}
     */
@@ -116,7 +117,7 @@
       var lastSongIndex = currentAlbum.songs.length - 1;
 
       if (currentSongIndex > lastSongIndex) {
-      stopSong(SongPlayer.currentSong);
+        stopSong(SongPlayer.currentSong);
       } else {
         var song = currentAlbum.songs[currentSongIndex];
         setSong(song);
