@@ -2,7 +2,7 @@
   function SongPlayer(Fixtures) {
     var SongPlayer = {};
 
-// Private Functions
+    // Private Functions
 
     /**
     * @desc Buzz object audio file
@@ -20,7 +20,6 @@
     *@desc pulls the index of the songs given
     *@type private function
     */
-
     var getSongIndex = function(song) {
       return currentAlbum.songs.indexOf(song);
     };
@@ -35,7 +34,7 @@
       if (currentBuzzObject) {
         currentBuzzObject.stop();
         if (SongPlayer.currentSong) {
-        SongPlayer.currentSong.playing = null;
+          SongPlayer.currentSong.playing = null;
         }
       }
 
@@ -44,6 +43,16 @@
         reload: true
       });
       SongPlayer.currentSong = song;
+    };
+
+    /**
+    * @function stopSong
+    * @desc Stops the currently playing song (currentSong). DRYs public functions
+    */
+
+    var stopSong = function(song) {
+      currentBuzzObject.stop();
+      song.playing = null;
     };
 
     /**
@@ -63,12 +72,12 @@
     */
 
 
-// Public Functions
+    // Public Functions
 
-  /**
-  * @desc Buzz object audio file
-  * @type {Object}
-  */
+    /**
+    * @desc Buzz object audio file
+    * @type {Object}
+    */
     SongPlayer.currentSong = null;
 
 
@@ -84,8 +93,6 @@
       }
     };
 
-
-
     /**
     * @function SongPlayer.pause
     * @desc pauses the currentBuzzObject
@@ -97,9 +104,28 @@
       currentBuzzObject.pause();
       song.playing = false;
     };
+    /**
+    * @desc Cycles Forward through the song index. Plays the next song in the album's index.
+    * @type Public Function
+    */
+
+    SongPlayer.next = function() {
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      currentSongIndex++;
+
+      var lastSongIndex = currentAlbum.songs.length - 1;
+
+      if (currentSongIndex > lastSongIndex) {
+      stopSong(SongPlayer.currentSong);
+      } else {
+        var song = currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      }
+    };
 
     /**
-    * @desc cycles backward through the song index. Plays previous song.
+    * @desc cycles backward through the song index. Plays previous song in the album's index.
     * @type Public Function
     */
     SongPlayer.previous = function() {
@@ -107,8 +133,7 @@
       currentSongIndex--;
 
       if (currentSongIndex < 0) {
-        currentBuzzObject.stop();
-        SongPlayer.currentSong.playing = null;
+        stopSong(song);
       } else {
         var song = currentAlbum.songs[currentSongIndex];
         setSong(song);
