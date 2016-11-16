@@ -11,7 +11,6 @@
 
     var currentBuzzObject= null;
 
-
     /**
     *@desc pulls the index of the songs given
     *@type private function
@@ -19,7 +18,6 @@
     var getSongIndex = function(song) {
       return currentAlbum.songs.indexOf(song);
     };
-
 
     /**
     * @function setSong
@@ -37,13 +35,21 @@
 
       currentBuzzObject = new buzz.sound(song.audioUrl, {
         formats: ['mp3'],
-        reload: true
+        preload: true
+      });
+
+      currentBuzzObject.setVolume(SongPlayer.volume);
+
+      currentBuzzObject.bind('volumeUpdate', function() {
+        $rootScope.$apply(function() {
+          SongPlayer.currentTime = currentBuzzObject.getVolume();
+        });
       });
 
       currentBuzzObject.bind('timeupdate', function() {
-          $rootScope.$apply(function() {
-            SongPlayer.currentTime = currentBuzzObject.getTime();
-          });
+        $rootScope.$apply(function() {
+          SongPlayer.currentTime = currentBuzzObject.getTime();
+        });
       });
 
       SongPlayer.currentSong = song;
@@ -85,6 +91,13 @@
     SongPlayer.currentSong = null;
 
     /**
+    * @desc Buzz object audio file
+    * @type {Object}
+    */
+
+    SongPlayer.volume = null;
+
+    /**
     *@desc Current Playback time (in seconds)
     *@type {Number}
     */
@@ -99,6 +112,17 @@
     SongPlayer.setCurrentTime = function(time) {
       if (currentBuzzObject) {
         currentBuzzObject.setTime(time);
+      }
+    };
+
+    /**
+    * @function setVolume
+    * @desc Sets the volume of the currently playing song
+    * @type Public function
+    */
+    SongPlayer.setVolume = function(volume) {
+      if (currentBuzzObject) {
+        currentBuzzObject.setVolume(volume);
       }
     };
 
