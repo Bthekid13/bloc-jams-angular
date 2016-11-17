@@ -2,6 +2,11 @@
   function SongPlayer($rootScope, Fixtures) {
     var SongPlayer = {};
 
+    var ctrlScope = null;
+    SongPlayer.registerScope = function(scope) {
+      ctrlScope = scope;
+    }
+
     // Private Functions
 
     /**
@@ -41,13 +46,13 @@
       currentBuzzObject.setVolume(SongPlayer.volume);
 
       currentBuzzObject.bind('volumeUpdate', function() {
-        $rootScope.$apply(function() {
+        ctrlScope.$apply(function() {
           SongPlayer.currentTime = currentBuzzObject.getVolume();
         });
       });
 
       currentBuzzObject.bind('timeupdate', function() {
-        $rootScope.$apply(function() {
+        ctrlScope.$apply(function() {
           SongPlayer.currentTime = currentBuzzObject.getTime();
         });
       });
